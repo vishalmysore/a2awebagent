@@ -1,6 +1,0 @@
-go to website https://the-internet.herokuapp.com
-click on A/B Testing
-save screenshot as "the-internet.herokuapp.com.png"
-go to website https://the-internet.herokuapp.com
-click on Add/Remove Elements
-save screenshot as "the-internet.herokuapp.com_2.png"
