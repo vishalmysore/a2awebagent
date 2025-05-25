@@ -2,7 +2,10 @@ package io.github.vishalmysore;
 
 import io.github.vishalmysore.a2a.domain.AgentCard;
 import io.github.vishalmysore.a2a.server.RealTimeAgentCardController;
+import io.github.vishalmysore.a2a.server.SpringAwareAgentCardController;
 import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Log
 @RestController
 @RequestMapping(RealTimeAgentCardController.WELL_KNOWN_PATH)
-public class AgentCardController extends RealTimeAgentCardController {
+public class AgentCardController extends SpringAwareAgentCardController {
 
+    @Autowired
+    public AgentCardController(ApplicationContext context) {
+        super(context);
+    }
 
     @GetMapping(value = RealTimeAgentCardController.AGENT_PATH, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AgentCard> getAgentCardForMyApp() {

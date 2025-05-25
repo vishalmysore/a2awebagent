@@ -1,8 +1,13 @@
 package io.github.vishalmysore;
 
 import io.github.vishalmysore.a2a.domain.JsonRpcRequest;
-import io.github.vishalmysore.a2a.server.JsonRpcController;
+
+import io.github.vishalmysore.a2a.server.A2ATaskController;
+import io.github.vishalmysore.common.server.JsonRpcController;
+import io.github.vishalmysore.common.server.SpringAwareJSONRpcController;
 import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,11 +16,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 @Log
-public class SeleniumA2AController extends JsonRpcController {
+public class SeleniumA2AController extends SpringAwareJSONRpcController {
+
+
+    @Autowired
+    SeleniumTaskController seleniumTaskController;
+
+    @Autowired
+    public SeleniumA2AController(ApplicationContext applicationContext) {
+        super(applicationContext);
+    }
+
     @PostMapping
     public Object handleRpc(@RequestBody JsonRpcRequest request) {
         log.info(request.toString());
         return super.handleRpc(request);
     }
 
+    @Override
+    public A2ATaskController getTaskController() {
+        return seleniumTaskController;
+    }
 }

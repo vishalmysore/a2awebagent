@@ -20,10 +20,11 @@ public class A2AWebBrowsingAgent {
 
 
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-        context.scan("io.github.vishalmysore.a2a", "io.github.vishalmysore.a2a.server", "io.github.vishalmysore.exec.a2a");
+        context.scan("io.github.vishalmysore");
         context.refresh();
         // Get the client from Spring context
-        LocalA2ATaskClient client = context.getBean(LocalA2ATaskClient.class);
+        SeleniumA2AController rpcController = context.getBean(SeleniumA2AController.class);
+        LocalA2ATaskClient client = new LocalA2ATaskClient(rpcController);
         FilePart filePart = new FilePart();
         FileContent fileContent = new FileContent();
         Path webActionPath = Paths.get("src/main/resources/web.action");
