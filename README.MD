@@ -1,6 +1,6 @@
-# Google A2A (Agent to Agent) Protocol with Selenium
+# Google A2A (Agent to Agent) and MCP  (Model Context Protocol) with Selenium
 
-This project demonstrates the integration of Google's A2A (Agent to Agent) protocol with Selenium for automated web browsing, test validation, screen capture, and other web-related tasks. The implementation provides flexible deployment options and powerful multi-agent workflow capabilities.  
+Integration of Google's A2A (Agent to Agent) protocol and MCP Model Context Protocol  with Selenium for automated web browsing, test validation, screen capture, and other web-related tasks. The implementation provides flexible deployment options and powerful multi-agent workflow capabilities.  
 **A2AJava is the Java implementation** of the Google A2A protocol you can check the project [here](https://github.com/vishalmysore/a2ajava) . 
 
 ![Agent Interface](agent.png)
@@ -110,20 +110,10 @@ Here are sample test execution results:
 ![Test Result 1](the-internet.herokuapp.com.png)
 ![Test Result 2](the-internet.herokuapp.com_2.png)
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Support
-
-For questions and support, please open an issue in the repository.
 
 
-## Tool Calling
+
+## Tool Calling MCP
 
 ```json
 {"method":"tools/call","params":{"name":"browseWebAndReturnImage","arguments":{"provideAllValuesInPlainEnglish":"Go to Google.com, search for \"a2ajava\", wait for results to load, click on the first search result link, wait for the page to load completely, then take a screenshot of the page"}},"jsonrpc":"2.0","id":17}
@@ -136,3 +126,15 @@ For questions and support, please open an issue in the repository.
 
 
 ![Capture Screenshot](captureScreenshot.png)
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+For questions and support, please open an issue in the repository.
