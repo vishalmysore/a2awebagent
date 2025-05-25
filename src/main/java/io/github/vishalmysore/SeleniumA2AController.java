@@ -30,7 +30,10 @@ public class SeleniumA2AController extends SpringAwareJSONRpcController {
     @PostMapping
     public Object handleRpc(@RequestBody JsonRpcRequest request) {
         log.info(request.toString());
-        return super.handleRpc(request);
+        Object obj =  super.handleRpc(request);
+
+        return obj;
+
     }
 
     @Override

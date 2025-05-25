@@ -121,3 +121,18 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Support
 
 For questions and support, please open an issue in the repository.
+
+
+## Tool Calling
+
+```json
+{"method":"tools/call","params":{"name":"browseWebAndReturnImage","arguments":{"provideAllValuesInPlainEnglish":"Go to Google.com, search for \"a2ajava\", wait for results to load, click on the first search result link, wait for the page to load completely, then take a screenshot of the page"}},"jsonrpc":"2.0","id":17}
+```
+
+
+```json
+{"method":"tools/call","params":{"name":"browseWebAndReturnText","arguments":{"provideAllValuesInPlainEnglish":"Go to Google.com, search for \"a2ajava\"give me result"}},"jsonrpc":"2.0","id":17}
+```
+
+
+![Capture Screenshot](captureScreenshot.png)

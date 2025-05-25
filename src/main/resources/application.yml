@@ -1,0 +1,26 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://${DB_USER}:${DB_PASSWORD}@cookgpt.nfaj3.mongodb.net/?retryWrites=true&w=majority&appName=cookgpt
+      database: cookgpt
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+    vectorstore:
+      mongodb:
+        initialize-schema: true
+        collection-name: cookgpt_vectorstore
+
+
+
+
+# Disable specific Spring Boot auto-configurations
+spring.autoconfigure.exclude:
+  - org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
+  - org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration
+
+logging:
+  level:
+    org.mongodb.driver.cluster: ERROR
+server:
+  port: 7860

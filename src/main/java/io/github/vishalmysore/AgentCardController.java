@@ -23,6 +23,7 @@ public class AgentCardController extends SpringAwareAgentCardController {
 
     @GetMapping(value = RealTimeAgentCardController.AGENT_PATH, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AgentCard> getAgentCardForMyApp() {
+
         AgentCard card = getCachedAgentCard();
         card.getCapabilities().setStreaming(true);
         log.info(card.getUrl());
