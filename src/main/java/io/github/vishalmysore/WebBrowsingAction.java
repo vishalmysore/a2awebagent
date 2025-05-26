@@ -34,6 +34,8 @@ public class WebBrowsingAction {
         if(processor != null) {
             try {
                 StringBuffer seperatedWebBrowsingSteps = new StringBuffer(processor.query("Separate the web browsing steps into individual steps  just give me steps without any additional text or brackets {"+ webBrowsingSteps+"}"));
+                //you can create your own selenium processor which implements SeleniumProcessor
+                //SeleniumScriptProcessor script = new SeleniumScriptProcessor(new MyOwnSeleniumScriptProcessor());
                 SeleniumScriptProcessor script = new SeleniumScriptProcessor();
                 script.process(seperatedWebBrowsingSteps,seleniumCallBack);
                                 return result.getLastData();

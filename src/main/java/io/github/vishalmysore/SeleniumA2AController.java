@@ -8,10 +8,8 @@ import io.github.vishalmysore.common.server.SpringAwareJSONRpcController;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @RequestMapping("/")
@@ -25,6 +23,12 @@ public class SeleniumA2AController extends SpringAwareJSONRpcController {
     @Autowired
     public SeleniumA2AController(ApplicationContext applicationContext) {
         super(applicationContext);
+    }
+
+    @GetMapping
+    public ModelAndView forwardToIndex() {
+
+        return new ModelAndView("forward:/index.html");
     }
 
     @PostMapping

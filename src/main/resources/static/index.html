@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A2A Selenium Agent</title>    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2d3436;
+            --secondary-color: #0984e3;
+            --accent-color: #00b894;
+            --text-color: #2d3436;
+            --background-color: #f5f6fa;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding-bottom: 60px;
+        }
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom right, transparent 49.5%, var(--background-color) 50%);
+        }
+        .card {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            margin-bottom: 1.5rem;
+            border-radius: 12px;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        pre {
+            background: var(--primary-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--accent-color);
+        }
+        .accordion-button:not(.collapsed) {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: var(--secondary-color);
+        }
+        code {
+            font-size: 0.9em;
+            border-radius: 4px;
+        }
+        .nav-tabs .nav-link {
+            color: var(--text-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+        }        .nav-tabs .nav-link.active {
+            color: var(--secondary-color);
+            border-bottom: 3px solid var(--secondary-color);
+            background: transparent;
+        }
+        /* Interactive Image Styles */
+        .interactive-image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        .hotspot {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+            z-index: 2;
+        }
+        .hotspot:hover {
+            transform: scale(1.2);
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0,184,148,0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0,184,148,0); }
+            100% { box-shadow: 0 0 0 0 rgba(0,184,148,0); }
+        }
+        .image-carousel {
+            position: relative;
+            height: 400px;
+            margin: 2rem 0;
+        }
+        .carousel-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 3;
+        }
+        .carousel-nav:hover {
+            background: var(--accent-color);
+        }
+        .carousel-prev { left: 10px; }
+        .carousel-next { right: 10px; }
+        .hotspot-tooltip {
+            position: absolute;
+            background: rgba(45,52,54,0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            max-width: 200px;
+            z-index: 4;
+        }
+        .workflow-steps {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1 class="display-4 fw-bold">A2A and MCP Compliant Selenium Agent</h1>
+            <p class="lead">Build powerful web automation agents using Java and Selenium with A2A protocol and MCP Protocol</p>
+        </div>
+    </div>    <div class="container">
+        <!-- Interactive Workflow Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card p-4">
+                    <h2 class="mb-4">Interactive A2A MCP Workflow</h2>
+                    <div class="interactive-image-container">
+                        <div class="image-carousel" id="workflowCarousel">
+                            <img src="agent.png" alt="Agent Interface" class="carousel-image" data-image="agent" style="display: block;">
+                            <img src="event.png" alt="Event Flow" class="carousel-image" data-image="event" style="display: none;">
+                            <img src="multiple.png" alt="Multi-Agent Architecture" class="carousel-image" data-image="architecture" style="display: none;">
+                            <img src="LocalTask.png" alt="Local Task Execution" class="carousel-image" data-image="task" style="display: none;">
+                            <img src="img.png" alt="Claude Integration" class="carousel-image" data-image="task" style="display: none;">
+                            <!-- Hotspots for agent.png -->
+                            <div class="hotspot" id="agentSpot1" style="left: 20%; top: 30%;" data-tooltip="Agent Interface Entry Point"></div>
+                            <div class="hotspot" id="agentSpot2" style="right: 25%; top: 45%;" data-tooltip="A2A Protocol Communication"></div>
+                            
+                            <!-- Navigation buttons -->
+                            <div class="carousel-nav carousel-prev"><i class="fas fa-chevron-left"></i></div>
+                            <div class="carousel-nav carousel-next"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                        <div class="workflow-steps">
+                            <h5>Current View: <span id="currentStep">Agent Interface</span></h5>
+                            <p id="stepDescription">Click on the hotspots to learn more about each component.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card p-4">
+                    <h2>Project Overview</h2>
+                    <p>This project demonstrates how to build A2A and MCP Compliant agents in Java and Selenium. You can run this project locally or connect to our demo server at <a href="https://vishalmysore-a2amcpselenium.hf.space/" class="text-decoration-none">vishalmysore-a2amcpselenium.hf.space</a></p>
+                    
+                    <h3 class="mt-4">Powered by a2ajava</h3>
+                    <p><a href="https://github.com/vishalmysore/a2ajava" class="text-decoration-none">a2ajava</a> is a Swiss Army knife for building agentic applications.                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Multi-Protocol</h5>
+                                    <p class="card-text">Seamless integration with A2A (Agent-to-Agent) and MCP (Model Context Protocol)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Multi-Language</h5>
+                                    <p class="card-text">Support for Java, Kotlin, and Groovy</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Multi-Platform</h5>
+                                    <p class="card-text">Compatible with Gemini, OpenAI, Claude, and Grok</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Multi-Integration</h5>
+                                    <p class="card-text">Out-of-the-box support for Selenium, human-in-the-loop workflows, and multi-LLM voting</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card p-4">
+                    <h3>Quick Links</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <strong>A2A Agent Card:</strong><br>
+                            <a href="https://vishalmysore-a2amcpselenium.hf.space/.well-known/agent.json" class="text-decoration-none">
+                                View Agent Card
+
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <strong>MCP Connector Guide:</strong><br>
+                            <a href="https://medium.com/@visrow/mcp-server-connector-quick-build-guide-with-multi-language-support-db95c8842dc3" class="text-decoration-none">
+                                Read the Guide
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card p-4">
+                    <h3>Configuration</h3>
+                    <p>Add the following configuration to your Claude JSON:</p>
+                    <pre><code class="language-json">
+
+{
+    "webbrowsingagent": {
+        "command": "java",
+        "args": [
+            "-jar",
+            "/work/a2a-mcp-bridge/target/mcp-connector-full.jar",
+            "http://localhost:7860/"
+        ],
+        "timeout": 30000
+    }
+}</code></pre>
+
+                    <p class="mt-3">For connecting to the remote server:</p>
+                    <pre><code class="language-json">{
+    "webbrowsingagent": {
+        "command": "java",
+        "args": [
+            "-jar",
+            "/work/a2a-mcp-bridge/target/mcp-connector-full.jar",
+            "https://vishalmysore-a2amcpselenium.hf.space"
+        ],
+        "timeout": 30000
+    }
+}</code></pre>
+                    <p class="mt-3">You can also use the Node client to connect to the server as mentioned in the article.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card p-4">
+                    <h3>Available Actions</h3>
+                    <p>Once connected, you will have access to the following actions:</p>
+
+
+
+                    <div class="accordion" id="actionsAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#actionOne">
+                                    Browse Web and Return Text
+                                </button>
+                            </h2>
+                            <div id="actionOne" class="accordion-collapse collapse show" data-bs-parent="#actionsAccordion">
+                                <div class="accordion-body">
+                                    <pre><code class="language-java">@Action(description = "perform actions on the web with selenium and return text")
+public String browseWebAndReturnText(String webBrowsingSteps) throws IOException {
+    CustomScriptResult result = new CustomScriptResult();
+    A2ASeleniumCallBack seleniumCallBack = new A2ASeleniumCallBack(result);
+    if(processor != null) {
+        try {
+            StringBuffer seperatedWebBrowsingSteps = new StringBuffer(processor.query(
+                "Separate the web browsing steps into individual steps just give me steps without any additional text or brackets {"
+                + webBrowsingSteps + "}"
+            ));
+            //you can create your own selenium processor which implements SeleniumProcessor
+            //SeleniumScriptProcessor script = new SeleniumScriptProcessor(new MyOwnSeleniumScriptProcessor());
+            SeleniumScriptProcessor script = new SeleniumScriptProcessor();
+            script.process(seperatedWebBrowsingSteps,seleniumCallBack);
+            return result.getLastData();
+        } catch (AIProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    return "processing issues";
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#actionTwo">
+                                    Browse Web and Return Image
+                                </button>
+                            </h2>
+                            <div id="actionTwo" class="accordion-collapse collapse" data-bs-parent="#actionsAccordion">
+                                <div class="accordion-body">
+                                    <pre><code class="language-java">@Action(description = "perform actions on the web with selenium and return image")
+public String browseWebAndReturnImage(String webBrowsingSteps) throws IOException {
+    CustomScriptResult result = new CustomScriptResult();
+    A2ASeleniumCallBack seleniumCallBack = new A2ASeleniumCallBack(result);
+    if(processor != null) {
+        try {
+            StringBuffer seperatedWebBrowsingSteps = new StringBuffer(processor.query(
+                "Separate the web browsing steps into individual steps just give me steps without any additional text or brackets {"
+                + webBrowsingSteps + "}"
+            ));
+            SeleniumScriptProcessor script = new SeleniumScriptProcessor();
+            script.process(seperatedWebBrowsingSteps,seleniumCallBack);
+            return result.getLastScreenshotAsBase64();
+        } catch (AIProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    return "processing issues";
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card p-4">
+                    <h3>Customization</h3>
+                    <div class="mb-4">
+                        <h4>Custom Selenium Processor</h4>
+                        <p>You can customize the Selenium processor by implementing your own SeleniumProcessor interface. While MyOwnSeleniumScriptProcessor is mentioned as an example, the base processor is used in this implementation.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4>Selenium Callback</h4>
+                        <p>The callback is invoked before and after each task execution. You can customize the behavior by:</p>
+                        <ul>
+                            <li>Returning false from beforeWebAction to skip processing</li>
+                            <li>Implementing custom process logic in your SeleniumProcessor</li>
+                        </ul>
+                    </div>
+
+
+                    <div class="mb-4">
+                        <h4>Example Callback Implementation</h4>
+                        <pre><code class="language-java">@Log
+public class A2ASeleniumCallBack implements SeleniumCallback {
+    private CustomScriptResult customResult;
+
+    public A2ASeleniumCallBack(CustomScriptResult customResult) {
+        this.customResult = customResult;
+    }
+
+    @Override
+    public boolean beforeWebAction(String lineToBeProessed, WebDriver driver) {
+        log.info("Processing line: " + lineToBeProessed);
+        try {
+            String html = driver.getPageSource();
+            customResult.addBeforeHtml(html);
+            byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+            customResult.addScreenshot(screenshot);
+        } catch (WebDriverException e) {
+            log.info(e.getMessage());
+        }
+        return true;
+    }
+
+    @Override
+    public void afterWebAction(String lineProcessed, WebDriver driver) {
+        log.info("Processed line: " + lineProcessed);
+        try {
+            String html = driver.getPageSource();
+            customResult.addAfterHtml(html);
+            byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+            customResult.addScreenshot(screenshot);
+        } catch (WebDriverException e) {
+            log.info(e.getMessage());
+        }
+    }    @Override
+    public void handleError(String line, String errorMessage, WebDriver driver) {
+        // Log the error message you can take any action here like reprocessing the line
+        log.severe("Error processing line: " + line + " Error: " + errorMessage);
+    }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>A2A Web Agent</h5>
+                    <p>A powerful integration of A2A protocol with Selenium for web automation - source code <a href="https://github.com/vishalmysore/a2awebagent">here</a> </p>
+
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>Powered by <a href="https://github.com/vishalmysore/a2ajava" class="text-light">a2ajava</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Prism.highlightAll();
+
+            // Interactive Image Carousel functionality
+            const carousel = document.getElementById('workflowCarousel');
+            const images = carousel.querySelectorAll('.carousel-image');
+            const prevBtn = carousel.querySelector('.carousel-prev');
+            const nextBtn = carousel.querySelector('.carousel-next');
+            const currentStep = document.getElementById('currentStep');
+            const stepDescription = document.getElementById('stepDescription');
+            let currentIndex = 0;
+
+            const descriptions = {
+                'agent': 'The Agent Interface provides the entry point for web automation tasks.',
+                'event': 'The Event Flow demonstrates how actions are processed through the A2A protocol.',
+                'architecture': 'Multi-Agent Architecture shows how different components interact.',
+                'task': 'Local Task Execution illustrates how tasks are processed locally.'
+            };
+
+            function updateCarousel(index) {
+                images.forEach(img => img.style.display = 'none');
+                images[index].style.display = 'block';
+                currentStep.textContent = images[index].alt;
+                stepDescription.textContent = descriptions[images[index].dataset.image];
+                
+                // Update hotspots
+                const hotspots = document.querySelectorAll('.hotspot');
+                hotspots.forEach(spot => spot.style.display = 'none');
+                
+                if (images[index].dataset.image === 'agent') {
+                    document.getElementById('agentSpot1').style.display = 'block';
+                    document.getElementById('agentSpot2').style.display = 'block';
+                }
+            }
+
+            prevBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                updateCarousel(currentIndex);
+            });
+
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % images.length;
+                updateCarousel(currentIndex);
+            });
+
+            // Hotspot tooltips
+            const hotspots = document.querySelectorAll('.hotspot');
+            hotspots.forEach(hotspot => {
+                let tooltip = document.createElement('div');
+                tooltip.className = 'hotspot-tooltip';
+                tooltip.textContent = hotspot.dataset.tooltip;
+                hotspot.appendChild(tooltip);
+
+                hotspot.addEventListener('mouseover', () => {
+                    tooltip.style.opacity = '1';
+                });
+
+                hotspot.addEventListener('mouseout', () => {
+                    tooltip.style.opacity = '0';
+                });
+
+                hotspot.addEventListener('click', () => {
+                    stepDescription.textContent = hotspot.dataset.tooltip;
+                });
+            });
+
+            // Initialize carousel
+            updateCarousel(currentIndex);
+        });
+    </script>
+</body>
+</html>
+
+
+
