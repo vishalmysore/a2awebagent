@@ -32,17 +32,7 @@ import java.nio.file.StandardCopyOption;
 public class WebBrowsingAction {
     SeleniumScriptProcessor script;
     public WebBrowsingAction(){
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless=new"); // or just "--headless" if < Chrome 109
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--disable-gpu");
-        options.addArguments("--disable-software-rasterizer");
-        options.addArguments("--disable-extensions");
-        options.addArguments("--remote-debugging-pipe");
-        options.addArguments("--window-size=1920,1080");
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver(options);
+        WebDriver driver = new ChromeDriver(CustomChromeOptions.createOptions());
         script = new SeleniumScriptProcessor(new SeleniumOpenAIProcessor(driver));
     }
 
@@ -51,10 +41,10 @@ public class WebBrowsingAction {
     @Action(description = "perform actions on the web with selenium and return text")
     public String browseWebAndReturnText(String webBrowsingSteps) throws IOException {
         CustomScriptResult result = new CustomScriptResult();
-        A2ASeleniumCallBack seleniumCallBack = new A2ASeleniumCallBack(result);
+        A2ASeleniumCallBack seleniumCallBack = new A2ASeleniumCallBack(result,processor);
         if(processor != null) {
             try {
-                StringBuffer seperatedWebBrowsingSteps = new StringBuffer(processor.query("Separate the web browsing steps into individual steps  just give me steps without any additional text or brackets {"+ webBrowsingSteps+"}"));
+                StringBuffer seperatedWebBrowsingSteps = new StringBuffer(processor.query("Separate the web browsing steps into individual steps  just give me steps without any additional text or bracket. MOST IMP - make sure each step can be processed by selenium webdriver, urls should always start with http or https {"+ webBrowsingSteps+"}"));
                 //you can create your own selenium processor which implements SeleniumProcessor
                 //SeleniumScriptProcessor script = new SeleniumScriptProcessor(new MyOwnSeleniumScriptProcessor());
 
@@ -73,7 +63,7 @@ public class WebBrowsingAction {
     @Action(description = "perform actions on the web with selenium and return image")
     public String browseWebAndReturnImage(String webBrowsingSteps) throws IOException {
         CustomScriptResult result = new CustomScriptResult();
-        A2ASeleniumCallBack seleniumCallBack = new A2ASeleniumCallBack(result);
+        A2ASeleniumCallBack seleniumCallBack = new A2ASeleniumCallBack(result,processor);
         if(processor != null) {
             try {
                 StringBuffer seperatedWebBrowsingSteps = new StringBuffer(processor.query("Separate the web browsing steps into individual steps  just give me steps without any additional text or brackets {"+ webBrowsingSteps+"}"));

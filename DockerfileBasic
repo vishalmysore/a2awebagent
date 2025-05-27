@@ -1,0 +1,31 @@
+FROM openjdk:18-bullseye
+
+# Set working directory
+WORKDIR /ai
+
+# Install dependencies and Chrome
+RUN apt-get update && \
+    apt-get install -y wget gnupg unzip curl fonts-liberation libappindicator3-1 \
+    libasound2 libatk-bridge2.0-0 libatk1.0-0 libcups2 libdbus-1-3 \
+    libgdk-pixbuf2.0-0 libnspr4 libnss3 libx11-xcb1 libxcomposite1 libxdamage1 \
+    libxrandr2 xdg-utils && \
+    wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+    dpkg -i google-chrome-stable_current_amd64.deb || apt-get -fy install && \
+    rm google-chrome-stable_current_amd64.deb
+
+# Create required directories
+RUN mkdir -p /ai/seleniumCache /ai/resolutionCache && chmod -R 777 /ai
+
+# ARG version for JAR
+ARG VERSION=0.0.1
+
+# Download your JAR
+RUN curl -L -o /ai/mcpdemo.jar https://github.com/vishalmysore/a2awebagent/releases/download/release/a2awebagent-${VERSION}.jar
+
+# Copy entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+EXPOSE 7860
+
+ENTRYPOINT ["/entrypoint.sh"]

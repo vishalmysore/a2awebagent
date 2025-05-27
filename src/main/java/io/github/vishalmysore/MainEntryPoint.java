@@ -3,7 +3,6 @@ package io.github.vishalmysore;
 import io.github.vishalmysore.a2a.domain.JsonRpcRequest;
 
 import io.github.vishalmysore.a2a.server.A2ATaskController;
-import io.github.vishalmysore.common.server.JsonRpcController;
 import io.github.vishalmysore.common.server.SpringAwareJSONRpcController;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +13,14 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 @RequestMapping("/")
 @Log
-public class SeleniumA2AController extends SpringAwareJSONRpcController {
+public class MainEntryPoint extends SpringAwareJSONRpcController {
 
 
     @Autowired
     SeleniumTaskController seleniumTaskController;
 
     @Autowired
-    public SeleniumA2AController(ApplicationContext applicationContext) {
+    public MainEntryPoint(ApplicationContext applicationContext) {
         super(applicationContext);
     }
 

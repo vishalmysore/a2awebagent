@@ -14,17 +14,7 @@ import org.springframework.stereotype.Service;
 public class SeleniumTaskController extends DyanamicTaskContoller {
     BaseScriptProcessor baseScriptProcessor;
     public SeleniumTaskController() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless=new"); // or just "--headless" if < Chrome 109
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--disable-gpu");
-        options.addArguments("--disable-software-rasterizer");
-        options.addArguments("--disable-extensions");
-        options.addArguments("--remote-debugging-pipe");
-        options.addArguments("--window-size=1920,1080");
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver(options);
+        WebDriver driver = new ChromeDriver(CustomChromeOptions.createOptions());
         this.baseScriptProcessor = new SeleniumScriptProcessor(new SeleniumOpenAIProcessor(driver));
 
     }
