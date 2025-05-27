@@ -1,10 +1,8 @@
 FROM node:16.16.0
 
-# Install Java (OpenJDK 18)
-RUN apt-get update && apt-get install -y openjdk-18-jdk curl unzip gnupg
-
-# Install Chrome dependencies
-RUN apt-get install -y \
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    curl unzip gnupg wget tar \
     fonts-liberation \
     libasound2 \
     libatk-bridge2.0-0 \
@@ -26,6 +24,19 @@ RUN apt-get install -y \
     xdg-utils \
     libu2f-udev \
     libvulkan1
+
+# Install OpenJDK 18 manually from Adoptium
+RUN curl -L -o /tmp/openjdk18.tar.gz https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.2.1%2B1/OpenJDK18U-jdk_x64_linux_hotspot_18.0.2.1_1.tar.gz && \
+    mkdir -p /opt/java/openjdk && \
+    tar -xzf /tmp/openjdk18.tar.gz -C /opt/java/openjdk --strip-components=1 && \
+    rm /tmp/openjdk18.tar.gz
+
+# Set JAVA_HOME
+ENV JAVA_HOME=/opt/java/openjdk
+ENV PATH="$JAVA_HOME/bin:$PATH"
+
+# Verify Java
+RUN java -version
 
 # Install Chrome
 RUN curl -LO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
